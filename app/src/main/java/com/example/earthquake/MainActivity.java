@@ -3,6 +3,8 @@ package com.example.earthquake;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -25,23 +28,33 @@ public class MainActivity extends AppCompatActivity implements  LoaderManager.Lo
     EarthQuakeAdapter quakeAdapter;
     ListView rootView;
     ProgressBar progressBar;
+    TextView emptyState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         rootView = findViewById(R.id.rootView);
+        emptyState=findViewById(R.id.empty_state);
 
-
-//       QuakeAsyncLoader task=new QuakeAsyncLoader();
-//       task.execute(USGS_REQUEST_URL);
-
+        rootView.setEmptyView(emptyState);
 
         progressBar=findViewById(R.id.progress_circular);
 
-        getSupportLoaderManager().initLoader(100,null ,this).forceLoad();
+
+        ConnectivityManager conManager= (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo=conManager.getActiveNetworkInfo();
+        if (networkInfo !=null && networkInfo.isConnected()){
+
+            getSupportLoaderManager().initLoader(100,null ,this).forceLoad();
+        }else{
+            progressBar.setVisibility(View.GONE);
+            emptyState.setText("No network Connection");
+        }
+
+
+
     }
 
     @Override
@@ -51,40 +64,21 @@ public class MainActivity extends AppCompatActivity implements  LoaderManager.Lo
 
     @Override
     public void onLoadFinished(@NonNull android.support.v4.content.Loader<ArrayList<EarthQuake>> loader, ArrayList<EarthQuake> earthQuakes) {
+
         progressBar.setVisibility(View.GONE);
-        UpdateUi(earthQuakes);
+
+        if (earthQuakes!=null){
+            UpdateUi(earthQuakes);
+        }else{
+            emptyState.setText("No earthQuake Data Found");
+        }
+
     }
 
     @Override
     public void onLoaderReset(@NonNull android.support.v4.content.Loader<ArrayList<EarthQuake>> loader) {
 
     }
-
-
-
-
-//        private class QuakeAsyncLoader extends AsyncTask<String,Void, ArrayList<EarthQuake>> {
-//
-//            @Override
-//            protected ArrayList<EarthQuake> doInBackground(String... strings) {
-//
-//               ArrayList<EarthQuake>  quakes= (ArrayList<EarthQuake>) QueryUtils.fetchEarthquakeData(USGS_REQUEST_URL);
-//               return quakes;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(ArrayList<EarthQuake> earthQuakes) {
-//
-//
-//                if (earthQuakes==null){
-//                    return;
-//                }
-//
-//                    progressBar.setVisibility(View.GONE);
-//              UpdateUi(earthQuakes);
-//
-//            }
-//        }
 
 
 
@@ -100,8 +94,7 @@ public class MainActivity extends AppCompatActivity implements  LoaderManager.Lo
         public ArrayList<EarthQuake> loadInBackground() {
             ArrayList<EarthQuake>  quakes= (ArrayList<EarthQuake>) QueryUtils.fetchEarthquakeData(USGS_REQUEST_URL);
 
-
-            return quakes;
+         return quakes;
         }
     }
 
