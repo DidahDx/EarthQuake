@@ -14,8 +14,8 @@ public class Browser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
 
-        WebView web=findViewById(R.id.web);
         TextView textView=findViewById(R.id.heading);
+        WebView web=findViewById(R.id.web);
 
         WebSettings webSettings=web.getSettings();
         webSettings.setJavaScriptEnabled(true);

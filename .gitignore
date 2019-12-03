@@ -11,3 +11,9 @@
 /build
 /captures
 .externalNativeBuild
+app/google-services.json
+app/src/debug/
+app/src/main/java/com/example/earthquake/MapsActivity.java
+app/src/main/res/layout/activity_maps.xml
+app/src/release/
+
