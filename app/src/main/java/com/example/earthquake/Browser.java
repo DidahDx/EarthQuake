@@ -1,10 +1,12 @@
 package com.example.earthquake;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import  android.webkit.WebView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Browser extends AppCompatActivity {
 

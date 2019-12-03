@@ -6,17 +6,19 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
 
 import java.util.ArrayList;
 
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements  LoaderManager.Lo
     }
 
     @Override
-    public void onLoadFinished(@NonNull android.support.v4.content.Loader<ArrayList<EarthQuake>> loader, ArrayList<EarthQuake> earthQuakes) {
+    public void onLoadFinished(@NonNull Loader<ArrayList<EarthQuake>> loader, ArrayList<EarthQuake> earthQuakes) {
 
         progressBar.setVisibility(View.GONE);
 
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements  LoaderManager.Lo
     }
 
     @Override
-    public void onLoaderReset(@NonNull android.support.v4.content.Loader<ArrayList<EarthQuake>> loader) {
+    public void onLoaderReset(@NonNull Loader<ArrayList<EarthQuake>> loader) {
 
     }
 
